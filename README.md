@@ -7,10 +7,10 @@
 
 | Component | Technology |
 |-----------|------------|
-| **Frontend** | React.js, Tailwind CSS, Redux Toolkit, Recharts |
-| **Backend** | Spring Boot, Spring Security, Hibernate, PostgreSQL |
-| **AI Service** | Python, FastAPI, Scikit-learn, OpenAI API |
-| **Database** | PostgreSQL (Relational), Redis (Caching) |
+| **Frontend** | React.js, Tailwind CSS |
+| **Backend** | Spring Boot, Spring Security, mongoDB |
+| **AI Service** | Python, FastAPI|
+| **Database** | MongoDB |
 | **DevOps** | Docker, GitHub Actions |
 
 ## 📂 Project Structure
