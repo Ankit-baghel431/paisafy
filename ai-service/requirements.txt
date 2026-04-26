@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pandas
+scikit-learn
+pytesseract
+pydantic
+openai
+python-multipart
+# For later: tensorflow/pytorch if needed

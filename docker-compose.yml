@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: paisafy-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/paisafy
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - postgres
+    networks:
+      - paisafy-network
+
+  frontend:
+    build: ./frontend
+    container_name: paisafy-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - paisafy-network
+
+  ai-service:
+    build: ./ai-service
+    container_name: paisafy-ai-service
+    ports:
+      - "8000:8000"
+    networks:
+      - paisafy-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: paisafy-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=paisafy
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - paisafy-network
+
+  redis:
+    image: redis:alpine
+    container_name: paisafy-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - paisafy-network
+
+networks:
+  paisafy-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
