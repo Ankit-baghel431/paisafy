@@ -24,6 +24,7 @@ public class User {
 
     private String password;
 
+    @Builder.Default
     private Set<String> roles = new HashSet<>();
 
     // Profile Fields

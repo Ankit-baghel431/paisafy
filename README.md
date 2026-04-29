@@ -7,11 +7,11 @@
 
 | Component | Technology |
 |-----------|------------|
-| **Frontend** | React.js, Tailwind CSS |
-| **Backend** | Spring Boot, Spring Security, mongoDB |
-| **AI Service** | Python, FastAPI|
+| **Frontend** | React.js (Vite), Tailwind CSS, Redux Toolkit, React Router, Recharts |
+| **Backend** | Spring Boot, Spring Security (JWT), Spring Data MongoDB, JavaMailSender |
+| **AI Service** | Python, FastAPI |
 | **Database** | MongoDB |
-| **DevOps** | Docker, GitHub Actions |
+| **DevOps** | Docker, Docker Compose, GitHub Actions |
 
 ## 📂 Project Structure
 - `backend/` - Spring Boot Application (APIs, Auth, Logic)
@@ -33,4 +33,35 @@ docker-compose up --build
 ```
 
 ### Manual Setup
-*(Instructions to be added as we build modules)*
+
+#### 1. Backend (Spring Boot)
+Ensure MongoDB is running locally on port `27017` or update the `application.properties` with your MongoDB URI.
+Ensure you have configured your SMTP details for email OTP verification in `application.properties`.
+```bash
+cd backend
+./mvnw clean install
+./mvnw spring-boot:run
+```
+
+#### 2. Frontend (React/Vite)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+#### 3. AI Service (Python)
+```bash
+cd ai-service
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+## ✨ Core Features
+- **Secure Authentication:** JWT-based login, Email OTP Registration, and Forgot Password flow.
+- **Transaction Tracking:** Log your income and expenses, complete with custom categories.
+- **Budget Management:** Set monthly limits and easily track your spending.
+- **Goal Tracking:** Plan and confidently fund your long-term financial goals.
+- **AI Advisor:** Get data-driven insights into your financial habits.
