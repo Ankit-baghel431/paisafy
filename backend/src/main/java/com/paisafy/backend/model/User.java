@@ -25,4 +25,15 @@ public class User {
     private String password;
 
     private Set<String> roles = new HashSet<>();
+
+    // Profile Fields
+    private String fullName;
+    private String mobile;
+    private String dob;
+    private String gender;
+    private String city;
+    private String language;
+    private String currency;
+    private String timezone;
+    private String photoBase64;
 }

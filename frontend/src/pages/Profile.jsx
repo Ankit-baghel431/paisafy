@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProfile } from "../redux/authSlice";
+import { updateProfileDetails } from "../redux/authSlice";
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaGlobe, FaCalendarAlt, FaClock, FaMoneyBillWave, FaSave, FaCamera, FaVenusMars } from "react-icons/fa";
 
 const Profile = () => {
@@ -17,18 +17,39 @@ const Profile = () => {
         language: currentUser?.language || "English",
         currency: currentUser?.currency || "INR",
         timezone: currentUser?.timezone || "Asia/Kolkata",
-        photo: currentUser?.photo || null
+        photoBase64: currentUser?.photoBase64 || null
     });
 
     const dispatch = useDispatch();
     const [isEditing, setIsEditing] = useState(false);
+    const fileInputRef = React.useRef(null);
+
+    const handlePhotoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+                alert("File is too large. Please upload an image smaller than 2MB.");
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfile({ ...profile, photoBase64: reader.result });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const handleSave = (e) => {
         e.preventDefault();
-        dispatch(updateProfile(profile));
-        setIsEditing(false);
-        // Dispatch update action here
-        alert("Profile updated successfully!");
+        dispatch(updateProfileDetails(profile))
+            .unwrap()
+            .then(() => {
+                setIsEditing(false);
+                alert("Profile updated successfully!");
+            })
+            .catch((err) => {
+                alert("Failed to update profile: " + err);
+            });
     };
 
     return (
@@ -41,16 +62,28 @@ const Profile = () => {
                     <div className="rounded-xl bg-white shadow-sm border border-gray-100 p-6 text-center">
                         <div className="relative mx-auto h-32 w-32 mb-4">
                             <div className="h-full w-full rounded-full bg-primary-100 flex items-center justify-center text-primary-600 text-4xl font-bold overflow-hidden border-4 border-white shadow-md">
-                                {profile.photo ? (
-                                    <img src={profile.photo} alt="Profile" className="h-full w-full object-cover" />
+                                {profile.photoBase64 ? (
+                                    <img src={profile.photoBase64} alt="Profile" className="h-full w-full object-cover" />
                                 ) : (
                                     profile.fullName[0].toUpperCase()
                                 )}
                             </div>
                             {isEditing && (
-                                <button className="absolute bottom-0 right-0 p-2 rounded-full bg-primary-600 text-white shadow-md hover:bg-primary-500">
-                                    <FaCamera className="text-sm" />
-                                </button>
+                                <>
+                                    <input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        className="hidden" 
+                                        ref={fileInputRef}
+                                        onChange={handlePhotoUpload} 
+                                    />
+                                    <button 
+                                        onClick={() => fileInputRef.current.click()}
+                                        className="absolute bottom-0 right-0 p-2 rounded-full bg-primary-600 text-white shadow-md hover:bg-primary-500"
+                                    >
+                                        <FaCamera className="text-sm" />
+                                    </button>
+                                </>
                             )}
                         </div>
 

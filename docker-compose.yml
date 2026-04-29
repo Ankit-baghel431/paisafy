@@ -7,11 +7,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/paisafy
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
+      - MONGO_URI=mongodb://mongodb:27017/paisafy
     depends_on:
-      - postgres
+      - mongodb
     networks:
       - paisafy-network
 
@@ -33,17 +31,13 @@ services:
     networks:
       - paisafy-network
 
-  postgres:
-    image: postgres:15-alpine
-    container_name: paisafy-postgres
+  mongodb:
+    image: mongo:latest
+    container_name: paisafy-mongodb
     ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=paisafy
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - "27017:27017"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - mongodb-data:/data/db
     networks:
       - paisafy-network
 
@@ -60,4 +54,4 @@ networks:
     driver: bridge
 
 volumes:
-  postgres-data:
+  mongodb-data:

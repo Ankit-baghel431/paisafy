@@ -31,8 +31,12 @@ const Layout = ({ children }) => {
                         {getPageTitle(location.pathname)}
                     </h2>
                     <div className="flex items-center gap-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600 font-bold">
-                            {currentUser.username ? currentUser.username[0].toUpperCase() : "U"}
+                        <div className="flex h-10 w-10 overflow-hidden items-center justify-center rounded-full bg-primary-100 text-primary-600 font-bold">
+                            {currentUser.photoBase64 ? (
+                                <img src={currentUser.photoBase64} alt="Profile" className="h-full w-full object-cover" />
+                            ) : (
+                                currentUser.username ? currentUser.username[0].toUpperCase() : "U"
+                            )}
                         </div>
                         <div className="hidden md:block">
                             <p className="text-sm font-medium text-gray-700">{currentUser.username}</p>
